@@ -5,4 +5,6 @@ urlpatterns=[
     path("to-audio/",views.to_audio,name="to_audio"),
     path("change-format/",views.change_format,name="change_format"),
     path("extract-frames/",views.extract_frames,name="extract_frames"),
+    path("reverse-video/",views.reverse,name="reverse"),
+    path("add-audio/",views.add_audio,name="add_audio"),
 ]

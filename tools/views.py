@@ -102,3 +102,44 @@ def extract_frames(request):
         return redirect('extract_frames')
 
     return render(request, 'extract_frames.html')
+
+def reverse(request):
+    if request.method == 'POST':
+        input_vid=request.FILES.get("input_vid")
+        vid_name_full=input_vid.name
+
+        vid_content=input_vid.read()
+        orignal_vid_path=os.path.join(settings.BASE_DIR, 'inputs', 'vids', 'reverse', vid_name_full)
+        with open(orignal_vid_path,'wb') as file:
+            file.write(vid_content)
+        
+        output_path=os.path.join(settings.BASE_DIR, 'outputs', 'reverse', vid_name_full)
+        (
+            ffmpeg.input(orignal_vid_path).output(output_path, vf="reverse" ,af="areverse").run()
+        )
+        return redirect('reverse')
+    return render(request, 'reverse.html')
+
+def add_audio(request):
+    if request.method == 'POST':
+        input_vid=request.FILES.get("input_vid")
+        input_audio=request.FILES.get("input_audio")
+        vid_name_full=input_vid.name
+        audio_name_full= input_audio.name
+
+        vid_content=input_vid.read()
+        orignal_vid_path=os.path.join(settings.BASE_DIR, 'inputs', 'vids', 'add_audio', vid_name_full)
+        with open(orignal_vid_path,'wb') as file:
+            file.write(vid_content)
+        
+        audio_content=input_audio.read()
+        orignal_audio_path=os.path.join(settings.BASE_DIR, 'inputs', 'others', 'audio', audio_name_full)
+        with open(orignal_audio_path,'wb') as file:
+            file.write(audio_content)
+
+        output_path=os.path.join(settings.BASE_DIR, 'outputs', 'add_audio', vid_name_full)
+        (
+            ffmpeg.input(orignal_vid_path).video.output(output_path, orignal_audio_path).run()
+        )
+        return redirect('add_audio')
+    return render(request, 'add_audio.html')
