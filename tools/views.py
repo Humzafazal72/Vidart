@@ -138,8 +138,8 @@ def add_audio(request):
             file.write(audio_content)
 
         output_path=os.path.join(settings.BASE_DIR, 'outputs', 'add_audio', vid_name_full)
-        (
-            ffmpeg.input(orignal_vid_path).video.output(output_path, orignal_audio_path).run()
-        )
+        ffmpeg.concat(ffmpeg.input(orignal_vid_path).video, ffmpeg.input(orignal_audio_path), v=1, a=1).output(output_path).run()
+        
+        
         return redirect('add_audio')
     return render(request, 'add_audio.html')
