@@ -6,10 +6,9 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{% url 'reverse' %}" method="post" enctype="multipart/form-data">
+    <form action="{% url 'colourize' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        <input type="file" accept="video/*" name="input_vid" required multiple>
-        <input type="time">
+        <input type="file" accept="video/*" name="input_vid" required>
         <input type="submit">
     </form>
 </body>

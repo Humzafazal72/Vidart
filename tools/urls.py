@@ -7,4 +7,5 @@ urlpatterns=[
     path("extract-frames/",views.extract_frames,name="extract_frames"),
     path("reverse-video/",views.reverse,name="reverse"),
     path("add-audio/",views.add_audio,name="add_audio"),
+    path("colourize/",views.colourize,name="colourize"),
 ]

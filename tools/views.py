@@ -1,10 +1,13 @@
 import os
 import ffmpeg
-import patoolib
 import shutil
 
 from django.conf import settings
 from django.shortcuts import render,redirect
+
+from .Colorization.deoldify import visualize
+
+colorizer=visualize.get_video_colorizer()
 # Create your views here.
         
 def add_subtitles(request):
@@ -143,3 +146,22 @@ def add_audio(request):
         
         return redirect('add_audio')
     return render(request, 'add_audio.html')
+
+def colourize(request):
+    if request.method=="POST":
+        input_vid=request.FILES.get("input_vid")
+        vid_name=input_vid.name
+        
+        vid_content=input_vid.read()
+        orignal_vid_path=os.path.join(settings.BASE_DIR, 'inputs', 'vids', 'bw', vid_name)
+        with open(orignal_vid_path,'wb') as file:
+            file.write(vid_content)
+        
+        colorizer._colorize_from_path(orignal_vid_path,render_factor=21)
+        #output_path=os.path.join(settings.BASE_DIR, 'outputs', 'colour', vid_name)
+        return redirect('colourize')
+        
+    return render(request, 'colourize.html')
+
+if __name__ == '__main__':
+    print(0)
